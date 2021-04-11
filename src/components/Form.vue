@@ -4,9 +4,21 @@
     </h1>
     <form class="row g-3">
         <div class="row my-2">
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
                 <label for="email" class="form-label">Email</label>
                 <input v-model.lazy.trim="userData.email" type="email" class="form-control" id="email" />
+            </div> -->
+
+            <!-- How V-Model works -->
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input 
+                    :value="userData.email"
+                    @input="userData.email = $event.target.value"
+                    type="email" 
+                    class="form-control" 
+                    id="email" 
+                />
             </div>
             <div class="col-md-6">
                 <label for="password" class="form-label">Password</label>
@@ -24,20 +36,6 @@
             <div class="mb-3">
                 <label for="Message" class="form-label">Message</label>
                 <textarea v-model="message" class="form-control" id="Message" rows="3"></textarea>
-            </div>
-        </div>
-
-        <div class="row my-2">
-            <div class="col-md-12">
-                <label for="Proiority" class="form-label">Proiority</label>
-                <select id="Proiority" class="form-select" v-model="proioritySelected">
-                    <!-- <option selected disabled>Choose...</option> -->
-                    <option 
-                        v-for="(priority, index) in proiorityOptions"
-                        :disabled="index === 0" :key="index">
-                        {{ priority.text }}
-                    </option>
-                </select>
             </div>
         </div>
 
@@ -77,6 +75,20 @@
                         Female
                     </label>
                 </div>
+            </div>
+        </div>
+
+        <div class="row my-2">
+            <div class="col-md-12">
+                <label for="Proiority" class="form-label">Proiority</label>
+                <select id="Proiority" class="form-select" v-model="proioritySelected">
+                    <!-- <option selected disabled>Choose...</option> -->
+                    <option 
+                        v-for="(priority, index) in proiorityOptions"
+                        :disabled="index === 0" :key="index">
+                        {{ priority.text }}
+                    </option>
+                </select>
             </div>
         </div>
 
