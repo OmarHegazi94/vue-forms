@@ -33,6 +33,23 @@
         </div>
 
         <div class="row my-2">
+            <div class="col-12">
+                <label for="file" class="form-label">File</label>
+                <input @change="displayFile($event.target.files[0])" type="file" class="form-control" id="file" />
+            </div>
+        </div>
+
+        <div class="row my-2">
+            <div class="col-6">
+                <label for="image" class="form-label">Image</label>
+                <input @change="displayImage($event.target.files[0])" accept="image/*" type="file" class="form-control" id="image" />
+            </div>
+            <div class="col-6">
+                <img :src="imgSrc" class="img-fluid" />
+            </div>
+        </div>
+
+        <div class="row my-2">
             <div class="mb-3">
                 <label for="Message" class="form-label">Message</label>
                 <textarea v-model="message" class="form-control" id="Message" rows="3"></textarea>
@@ -92,14 +109,23 @@
             </div>
         </div>
 
+        <!-- v-model="dataSwitch" -->
+        <div class="row my-2">
+            <div class="col-md-12">
+                <Switch 
+                    :value="dataSwitch" @update:dataSwitch="$event" 
+                />
+            </div>
+        </div>
+
         <div class="row mt-4 pb-5 border-bottom">
             <div class="col-12">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button @click.prevent="submitForm" type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </form>
 
-    <div class="row my-5">
+    <div class="row my-5" v-if="isSubmitted">
         <div class="col-lg-12">
             <div class="card text-white bg-dark">
                 <h5 class="card-header">Your Data</h5>
@@ -107,6 +133,8 @@
                     <p class="card-text">Mail: {{ userData.email }}</p>
                     <p class="card-text">Password: {{ userData.password }}</p>
                     <p class="card-text">Age: {{ userData.age }}</p>
+                    <p class="card-text">file: {{ file }}</p>
+                    <p class="card-text">Image: {{ imgSrc }}</p>
                     <p style="white-space: pre" class="card-text">Message: {{ message }}</p>
 
                     <p class="card-text">Send Mail:  
@@ -118,6 +146,7 @@
 
                     <p class="card-text">Gender: {{ gender }}</p>
                     <p class="card-text">Proiority: {{ proioritySelected }}</p>
+                    <p class="card-text">Switch Value: {{ dataSwitch }}</p>
 
                 </div>
             </div>
@@ -126,6 +155,8 @@
 </template>
 
 <script>
+import Switch from './Switch.vue'
+
 export default {
     name: "Form",
     data() {
@@ -147,8 +178,27 @@ export default {
                 {value: 'b', text: 'High'}, 
                 {value: 'c', text: 'Medium'}, 
                 {value: 'd', text: 'Low'}
-            ]
+            ],
+            dataSwitch: true,
+            file: null,
+            imgSrc: null,
+            isSubmitted: false
         };
     },
+    components: {
+        Switch
+    },
+    methods: {
+        submitForm() {
+            this.isSubmitted = true
+        },
+        displayFile(file) {
+            this.file = file.name
+            console.log(file)
+        },
+        displayImage(img) {
+            this.imgSrc = URL.createObjectURL(img)
+        }
+    }
 };
 </script>
